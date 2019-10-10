@@ -1,5 +1,7 @@
+package main;
 import java.util.Scanner;
-import general.Controller;
+
+import control.Controller;
 
 public class main {
 
@@ -23,9 +25,9 @@ public class main {
 		System.out.println("Especifique o tamanho inicial do quadro: ");
 		int inicialFrameSize = in.nextInt();
 		
-		Controller c = new Controller(inicialNumberTags,incrementTagsBy,maxNumberTags,repetitionsEachNumberTags,inicialFrameSize);
+		Controller c = new Controller(inicialNumberTags,incrementTagsBy,maxNumberTags,repetitionsEachNumberTags,inicialFrameSize,protocolsChoosen);
 		
-		c.runEstimator();
+		c.runEstimators();
 		
 		System.out.println("heh");
 		
