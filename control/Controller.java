@@ -78,7 +78,7 @@ public class Controller {
 	
 	public void runEstimators() {
 			
-		for(int i=0;i<this.est.size();i++) {
+		for(int i=0;i<this.est.size();i++) { // add threads here later
 			runEstimator(this.est.get(i));
 		}
 		

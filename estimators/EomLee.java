@@ -1,12 +1,19 @@
 package estimators;
 
+import java.lang.Math;
 import general.Tag;
 
 public class EomLee extends Estimator {
 	
+	private double B;
+	private double Y;
+	private double _Y;  // Yk-1
 	
 	public EomLee(int numberTags, int frameSize) {
-	super(numberTags, frameSize);
+		super(numberTags, frameSize);
+		this.B= Double.POSITIVE_INFINITY;
+		this.Y= 2;
+		this._Y= 2;
 	}
 	
 	
@@ -32,7 +39,7 @@ public class EomLee extends Estimator {
 				}
 			}
 			
-			this.setFrameSize(frameCollisions * 2);
+			this.frameSize = this.calculateNextFrameSize();
 			this.resetFrame(this.frameSize);
 			this.totalFrames++;
 		}
@@ -41,6 +48,35 @@ public class EomLee extends Estimator {
 		this.setNumberCollisionSlots(this.getNumberCollisionSlots()/this.totalFrames);
 		this.setNumberEmptySlots(this.getNumberEmptySlots()/this.totalFrames);
 		this.setNumberSucessSlots(this.getNumberSucessSlots()/this.totalFrames);
+	}
+	
+	public int calculateNextFrameSize () {
+		
+		if(this.Y<=0.001)
+			return (int) Math.ceil(this.Y*this.getNumberCollisionSlots());
+		
+		this.B=this.calculateB();
+		this.Y=this.calculateY();
+		
+		return (int)Math.ceil(this.Y*this.getNumberCollisionSlots());
+	}
+	
+	public double calculateB() {
+		
+		return this.frameSize/(_Y*this.getNumberCollisionSlots()+this.getNumberSucessSlots());
+	}
+	
+	public double calculateY() {
+		
+		this._Y=this.Y;
+		
+		if(this.totalFrames==0)
+			return this.Y;
+		
+		double nom = 1.0 - Math.exp(-(1.0/this.B));
+		double dem = this.B*(1.0-(1.0+(1/this.B))*Math.exp(-(1.0/this.B)));
+		double result = nom/dem;
+		return result;
 	}
 
 	public static void main(String[] args) {
