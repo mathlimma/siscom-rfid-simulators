@@ -35,8 +35,6 @@ public class graphic extends JFrame {
 	public List<Metrics> elMetrics;
 
     public graphic(int choosenEstimators,int incTagsBy, int iniNumberTags, int maxNumTags) {
-
-        //initUI();
         
         this.incrementTagsBy = incTagsBy;
 		this.inicialNumberTags = iniNumberTags;
@@ -54,10 +52,9 @@ public class graphic extends JFrame {
     }
     
  
-    private void initUI() {
+    private void initUI(XYDataset dataset, String eixoY) {
 
-        XYDataset dataset = createDataset();
-        JFreeChart chart = createChart(dataset);
+        JFreeChart chart = createChart(dataset, eixoY);
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         chartPanel.setBackground(Color.white);
@@ -69,16 +66,79 @@ public class graphic extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private XYDataset createDataset() {
-    	XYSeries series1 = new XYSeries("lb");
-    	XYSeries series2 = new XYSeries("eomlee");
+    private XYDataset createDatasetEmpty() {
+    	XYSeries series1 = new XYSeries("LowerBound");
+    	XYSeries series2 = new XYSeries("Eomlee");
     	
     	int numberTags = this.inicialNumberTags;
     	
     	for(int i=0;numberTags<=this.maxNumberTags;i++) {
     		
-    		series1.add(numberTags, this.lbMetrics.get(i).getNumberSucessSlots());
-    		series2.add(numberTags, this.elMetrics.get(i).getNumberSucessSlots());
+    		series1.add(numberTags, this.lbMetrics.get(i).getNumberEmptySlots());
+    		series2.add(numberTags, this.elMetrics.get(i).getNumberEmptySlots());
+			
+			numberTags+=this.incrementTagsBy;
+		}        
+
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(series1);
+        dataset.addSeries(series2);
+
+        return dataset;
+    }
+    
+    private XYDataset createDatasetCollision() {
+    	XYSeries series1 = new XYSeries("LowerBound");
+    	XYSeries series2 = new XYSeries("Eomlee");
+    	
+    	int numberTags = this.inicialNumberTags;
+    	
+    	for(int i=0;numberTags<=this.maxNumberTags;i++) {
+    		
+    		series1.add(numberTags, this.lbMetrics.get(i).getNumberCollisionSlots());
+    		series2.add(numberTags, this.elMetrics.get(i).getNumberCollisionSlots());
+			
+			numberTags+=this.incrementTagsBy;
+		}        
+
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(series1);
+        dataset.addSeries(series2);
+
+        return dataset;
+    }
+    
+    private XYDataset createDatasetEfficiency() {
+    	XYSeries series1 = new XYSeries("LowerBound");
+    	XYSeries series2 = new XYSeries("Eomlee");
+    	
+    	int numberTags = this.inicialNumberTags;
+    	
+    	for(int i=0;numberTags<=this.maxNumberTags;i++) {
+    		
+    		series1.add(numberTags, this.lbMetrics.get(i).getEfficiency());
+    		series2.add(numberTags, this.elMetrics.get(i).getEfficiency());
+			
+			numberTags+=this.incrementTagsBy;
+		}        
+
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(series1);
+        dataset.addSeries(series2);
+
+        return dataset;
+    }
+    
+    private XYDataset createDatasetTotalSlots() {
+    	XYSeries series1 = new XYSeries("LowerBound");
+    	XYSeries series2 = new XYSeries("Eomlee");
+    	
+    	int numberTags = this.inicialNumberTags;
+    	
+    	for(int i=0;numberTags<=this.maxNumberTags;i++) {
+    		
+    		series1.add(numberTags, this.lbMetrics.get(i).getNumberTotalSlots());
+    		series2.add(numberTags, this.elMetrics.get(i).getNumberTotalSlots());
 			
 			numberTags+=this.incrementTagsBy;
 		}        
@@ -90,11 +150,11 @@ public class graphic extends JFrame {
         return dataset;
     }
 
-    private JFreeChart createChart(final XYDataset dataset) {
+    private JFreeChart createChart(final XYDataset dataset, String eixoY) {
 
         JFreeChart chart = ChartFactory.createXYLineChart(
-                "Grafico para SisCom", 
-                "Etiquetas", 
+                "SisCom", 
+                eixoY, 
                 "Slots", 
                 dataset, 
                 PlotOrientation.VERTICAL,
@@ -126,7 +186,7 @@ public class graphic extends JFrame {
 
         chart.getLegend().setFrame(BlockBorder.NONE);
 
-        chart.setTitle(new TextTitle("Grafico para SisCom",
+        chart.setTitle(new TextTitle("SisCom",
                         new Font("Serif", Font.BOLD, 18)
                 )
         );
@@ -135,11 +195,22 @@ public class graphic extends JFrame {
     }
     
     public void plotGraphic() {
-    	initUI();
+    	initUI(createDatasetTotalSlots(),"Número de Slots");
         SwingUtilities.invokeLater(() -> {
             this.setVisible(true);
         });
-        
+        initUI(createDatasetEfficiency(),"Eficiencia");
+        SwingUtilities.invokeLater(() -> {
+            this.setVisible(true);
+        });
+        initUI(createDatasetEmpty(),"Número de Slots Vazios");
+        SwingUtilities.invokeLater(() -> {
+            this.setVisible(true);
+        });
+        initUI(createDatasetCollision(),"Número de Slots em Colisões");
+        SwingUtilities.invokeLater(() -> {
+            this.setVisible(true);
+        });
         
     }
 

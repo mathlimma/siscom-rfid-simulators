@@ -37,9 +37,6 @@ public class LowerBound extends Estimator {
 		}
 		
 		this.setEfficiecy(this.getNumberSucessSlots()/this.getNumberTotalSlots());
-		this.setNumberCollisionSlots(this.getNumberCollisionSlots());
-		this.setNumberEmptySlots(this.getNumberEmptySlots());
-		this.setNumberSucessSlots(this.getNumberSucessSlots());
 	}
 
 	public static void main(String[] args) {

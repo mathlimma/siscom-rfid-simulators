@@ -45,9 +45,6 @@ public class EomLee extends Estimator {
 		}
 		
 		this.setEfficiecy(this.getNumberSucessSlots()/this.getNumberTotalSlots());
-		this.setNumberCollisionSlots(this.getNumberCollisionSlots());
-		this.setNumberEmptySlots(this.getNumberEmptySlots());
-		this.setNumberSucessSlots(this.getNumberSucessSlots());
 	}
 	
 	public int calculateNextFrameSize () {
@@ -68,14 +65,15 @@ public class EomLee extends Estimator {
 	
 	public double calculateY() {
 		
-		this._Y=this.Y;
-		
 		if(this.totalFrames==0)
 			return this.Y;
 		
-		double nom = 1.0 - Math.exp(-(1.0/this.B));
-		double dem = this.B*(1.0-(1.0+(1/this.B))*Math.exp(-(1.0/this.B)));
-		double result = nom/dem;
+		this._Y=this.Y;
+	
+		double frac = -(1.0/this.B);
+		double nom = 1.0 - Math.exp(frac);
+		double den = this.B*(1.0-(1.0+(-frac))*Math.exp(frac));
+		double result = nom/den;
 		return result;
 	}
 
