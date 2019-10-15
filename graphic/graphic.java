@@ -59,7 +59,7 @@ public class graphic extends JFrame {
  
     private void initUI(XYDataset dataset, String eixoY) throws IOException {
 
-        JFreeChart chart = createChart(dataset, eixoY);
+        JFreeChart chart = createChart (dataset, eixoY);
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         chartPanel.setBackground(Color.white);
@@ -68,7 +68,16 @@ public class graphic extends JFrame {
         pack();
         setTitle("Line chart");
         setLocationRelativeTo(null);
-        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        JFreeChart chart2 = createChart (dataset, eixoY);
+        ChartPanel chartPanel2 = new ChartPanel(chart2);
+        chartPanel2.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        chartPanel2.setBackground(Color.white);
+        add(chartPanel2);
+
+        pack();
+        setTitle("Line chart");
+        setLocationRelativeTo(null);
     }
 
     private XYDataset createDatasetEmpty() {
@@ -98,8 +107,6 @@ public class graphic extends JFrame {
         
         if(this.choosenEstimators!=1)
         	dataset.addSeries(series2);
-        
-
         return dataset;
     }
     
@@ -197,12 +204,12 @@ public class graphic extends JFrame {
         return dataset;
     }
 
-    private JFreeChart createChart(final XYDataset dataset, String eixoY) throws IOException {
+    public JFreeChart createChart(final XYDataset dataset, String eixoY) throws IOException {
 
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "SisCom", 
-                eixoY, 
-                "Slots", 
+                "Numero de Etiquetas",
+                eixoY,
                 dataset, 
                 PlotOrientation.VERTICAL,
                 true, 
@@ -223,8 +230,6 @@ public class graphic extends JFrame {
         plot.setRenderer(renderer);
         plot.setBackgroundPaint(Color.white);
 
-//        plot.setRangeGridlinesVisible(false);
-//        plot.setDomainGridlinesVisible(false);
         plot.setRangeGridlinesVisible(true);
         plot.setRangeGridlinePaint(Color.BLACK);
         
@@ -243,10 +248,13 @@ public class graphic extends JFrame {
     }
     
     public void plotGraphic() throws IOException {
-    	initUI(createDatasetTotalSlots(),"NÃºmero de Slots");
+    	initUI(createDatasetTotalSlots(),"Número de Slots");
     	initUI(createDatasetEfficiency(),"Eficiencia");
-    	initUI(createDatasetEmpty(),"NÃºmero de Slots Vazios");
-    	initUI(createDatasetCollision(),"NÃºmero de Slots em ColisÃµes");
+    	initUI(createDatasetEmpty(),"Número de Slots Vazios");
+    	initUI(createDatasetCollision(),"Número de Slots em Colisões");
+       /* SwingUtilities.invokeLater(() -> {
+            this.setVisible(true);
+        });*/
     }
     
 }
