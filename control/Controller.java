@@ -1,4 +1,5 @@
 package control;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -76,7 +77,6 @@ public class Controller {
 			
 			this.metrics = this.metrics.divByNumberRepetitions(this.repetitionsEachNumberTags);
 			
-			System.out.println("instance of");
 			if (est instanceof LowerBound) {
 				this.graphic.lbMetrics.add(this.metrics);
 			}else {
@@ -88,17 +88,13 @@ public class Controller {
 		
 	}
 	
-	public void runEstimators() {
-		System.out.println("antes for");
+	public void runEstimators() throws IOException {
+		
 		for(int i=0;i<this.est.size();i++) { // add threads here later
 			runEstimator(this.est.get(i));
 		}
 		
-		if(true) {
-		System.out.println("inside if");
 		this.graphic.plotGraphic();
-		}
-		
 		
 	}
 	

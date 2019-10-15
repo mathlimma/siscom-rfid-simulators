@@ -2,6 +2,8 @@ package graphic;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -10,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.plot.PlotOrientation;
@@ -54,7 +57,7 @@ public class graphic extends JFrame {
     }
     
  
-    private void initUI(XYDataset dataset, String eixoY) {
+    private void initUI(XYDataset dataset, String eixoY) throws IOException {
 
         JFreeChart chart = createChart(dataset, eixoY);
         ChartPanel chartPanel = new ChartPanel(chart);
@@ -65,7 +68,7 @@ public class graphic extends JFrame {
         pack();
         setTitle("Line chart");
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private XYDataset createDatasetEmpty() {
@@ -194,7 +197,7 @@ public class graphic extends JFrame {
         return dataset;
     }
 
-    private JFreeChart createChart(final XYDataset dataset, String eixoY) {
+    private JFreeChart createChart(final XYDataset dataset, String eixoY) throws IOException {
 
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "SisCom", 
@@ -230,36 +233,20 @@ public class graphic extends JFrame {
 
         chart.getLegend().setFrame(BlockBorder.NONE);
 
-        chart.setTitle(new TextTitle("SisCom",
+        chart.setTitle(new TextTitle("SisCom - Simuladores DFSA",
                         new Font("Serif", Font.BOLD, 18)
                 )
         );
-
+        String str = eixoY+".png";
+        ChartUtilities.saveChartAsPNG(new File(str), chart, 450, 400);
         return chart;
     }
     
-    public void plotGraphic() {
+    public void plotGraphic() throws IOException {
     	initUI(createDatasetTotalSlots(),"Número de Slots");
-        SwingUtilities.invokeLater(() -> {
-            this.setVisible(true);
-        });
-        initUI(createDatasetEfficiency(),"Eficiencia");
-        SwingUtilities.invokeLater(() -> {
-            this.setVisible(true);
-        });
-        initUI(createDatasetEmpty(),"Número de Slots Vazios");
-        SwingUtilities.invokeLater(() -> {
-            this.setVisible(true);
-        });
-        initUI(createDatasetCollision(),"Número de Slots em Colisões");
-        SwingUtilities.invokeLater(() -> {
-            this.setVisible(true);
-        });
-        
+    	initUI(createDatasetEfficiency(),"Eficiencia");
+    	initUI(createDatasetEmpty(),"Número de Slots Vazios");
+    	initUI(createDatasetCollision(),"Número de Slots em Colisões");
     }
-
-    public static void main(String[] args) {
-
-         
-    }
+    
 }
