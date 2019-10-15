@@ -45,9 +45,9 @@ public class EomLee extends Estimator {
 		}
 		
 		this.setEfficiecy(this.getNumberSucessSlots()/this.getNumberTotalSlots());
-		this.setNumberCollisionSlots(this.getNumberCollisionSlots()/this.totalFrames);
-		this.setNumberEmptySlots(this.getNumberEmptySlots()/this.totalFrames);
-		this.setNumberSucessSlots(this.getNumberSucessSlots()/this.totalFrames);
+		this.setNumberCollisionSlots(this.getNumberCollisionSlots());
+		this.setNumberEmptySlots(this.getNumberEmptySlots());
+		this.setNumberSucessSlots(this.getNumberSucessSlots());
 	}
 	
 	public int calculateNextFrameSize () {

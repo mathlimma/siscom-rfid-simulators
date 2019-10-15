@@ -2,6 +2,9 @@ package graphic;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.List;
+import java.util.ArrayList;
+
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -20,14 +23,37 @@ import org.jfree.data.xy.XYSeriesCollection;
 import estimators.EomLee;
 import estimators.Estimator;
 import estimators.LowerBound;
+import general.Metrics;
 
 public class graphic extends JFrame {
+	
+	public int inicialNumberTags;
+	public int incrementTagsBy;
+	public int maxNumberTags;
+	
+	public List<Metrics> lbMetrics;
+	public List<Metrics> elMetrics;
 
-    public graphic() {
+    public graphic(int choosenEstimators,int incTagsBy, int iniNumberTags, int maxNumTags) {
 
-        initUI();
+        //initUI();
+        
+        this.incrementTagsBy = incTagsBy;
+		this.inicialNumberTags = iniNumberTags;
+		this.maxNumberTags = maxNumTags;
+        
+        if(choosenEstimators==1) {
+			this.lbMetrics = new ArrayList<Metrics>();
+		}else if(choosenEstimators==2) {
+			this.elMetrics = new ArrayList<Metrics>();
+		}else {
+			this.lbMetrics = new ArrayList<Metrics>();
+			this.elMetrics = new ArrayList<Metrics>();
+		}
+		
     }
-
+    
+ 
     private void initUI() {
 
         XYDataset dataset = createDataset();
@@ -44,23 +70,18 @@ public class graphic extends JFrame {
     }
 
     private XYDataset createDataset() {
+    	XYSeries series1 = new XYSeries("lb");
+    	XYSeries series2 = new XYSeries("eomlee");
     	
-        XYSeries series1 = new XYSeries("lowerbound ");
-        series1.add(18, 530);
-        series1.add(20, 580);
-        series1.add(25, 740);
-        series1.add(30, 901);
-        series1.add(40, 1300);
-        series1.add(50, 2219);
-        
-        XYSeries series2 = new XYSeries("eomlee");
-        
-        series2.add(18, 567);
-        series2.add(20, 612);
-        series2.add(25, 800);
-        series2.add(30, 980);
-        series2.add(40, 1210);
-        series2.add(50, 2350);        
+    	int numberTags = this.inicialNumberTags;
+    	
+    	for(int i=0;numberTags<=this.maxNumberTags;i++) {
+    		
+    		series1.add(numberTags, this.lbMetrics.get(i).getNumberSucessSlots());
+    		series2.add(numberTags, this.elMetrics.get(i).getNumberSucessSlots());
+			
+			numberTags+=this.incrementTagsBy;
+		}        
 
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(series1);
@@ -112,14 +133,18 @@ public class graphic extends JFrame {
 
         return chart;
     }
-
-    public static void main(String[] args) {
-
+    
+    public void plotGraphic() {
+    	initUI();
         SwingUtilities.invokeLater(() -> {
-            graphic ex = new graphic();
-            ex.setVisible(true);
+            this.setVisible(true);
         });
         
         
+    }
+
+    public static void main(String[] args) {
+
+         
     }
 }

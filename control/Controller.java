@@ -1,11 +1,13 @@
 package control;
 import java.util.ArrayList;
+
 import java.util.List;
 
 import estimators.EomLee;
 import estimators.Estimator;
 import estimators.LowerBound;
 import general.Metrics;
+import graphic.graphic;
 
 public class Controller {
 	
@@ -18,6 +20,8 @@ public class Controller {
 	private int inicialFrameSize;
 	
 	private Metrics metrics;
+	
+	private graphic graphic;
 	
 	public Controller (int iniNumTags, int incTagsBy,
 		int maxNumTags, int numRepet, int iniFrameSize, int choosenEstimators) {
@@ -37,9 +41,10 @@ public class Controller {
 			this.est.add(new EomLee(this.inicialNumberTags,this.inicialFrameSize));
 		}else {
 			this.est.add(new LowerBound(this.inicialNumberTags,this.inicialFrameSize));
-			this.est.add(new LowerBound(this.inicialNumberTags,this.inicialFrameSize));
+			this.est.add(new EomLee(this.inicialNumberTags,this.inicialFrameSize));
 		}
-		
+			
+		this.graphic = new graphic(choosenEstimators,this.incrementTagsBy,this.inicialNumberTags,this.maxNumberTags);
 		
 	}
 	
@@ -71,16 +76,29 @@ public class Controller {
 			
 			this.metrics = this.metrics.divByNumberRepetitions(this.repetitionsEachNumberTags);
 			
+			System.out.println("instance of");
+			if (est instanceof LowerBound) {
+				this.graphic.lbMetrics.add(this.metrics);
+			}else {
+				this.graphic.elMetrics.add(this.metrics);
+			}
+			
 			numberTags+=this.incrementTagsBy;
 		}
 		
 	}
 	
 	public void runEstimators() {
-			
+		System.out.println("antes for");
 		for(int i=0;i<this.est.size();i++) { // add threads here later
 			runEstimator(this.est.get(i));
 		}
+		
+		if(true) {
+		System.out.println("inside if");
+		this.graphic.plotGraphic();
+		}
+		
 		
 	}
 	
