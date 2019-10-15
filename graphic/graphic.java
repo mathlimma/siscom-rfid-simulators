@@ -248,10 +248,10 @@ public class graphic extends JFrame {
     }
     
     public void plotGraphic() throws IOException {
-    	initUI(createDatasetTotalSlots(),"Número de Slots");
+    	initUI(createDatasetTotalSlots(),"Numero de Slots");
     	initUI(createDatasetEfficiency(),"Eficiencia");
-    	initUI(createDatasetEmpty(),"Número de Slots Vazios");
-    	initUI(createDatasetCollision(),"Número de Slots em Colisões");
+    	initUI(createDatasetEmpty(),"Numero de Slots Vazios");
+    	initUI(createDatasetCollision(),"Numero de Slots em Colisoees");
        /* SwingUtilities.invokeLater(() -> {
             this.setVisible(true);
         });*/
