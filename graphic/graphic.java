@@ -30,6 +30,7 @@ public class graphic extends JFrame {
 	public int inicialNumberTags;
 	public int incrementTagsBy;
 	public int maxNumberTags;
+	public int choosenEstimators;
 	
 	public List<Metrics> lbMetrics;
 	public List<Metrics> elMetrics;
@@ -39,6 +40,7 @@ public class graphic extends JFrame {
         this.incrementTagsBy = incTagsBy;
 		this.inicialNumberTags = iniNumberTags;
 		this.maxNumberTags = maxNumTags;
+		this.choosenEstimators = choosenEstimators;
         
         if(choosenEstimators==1) {
 			this.lbMetrics = new ArrayList<Metrics>();
@@ -74,15 +76,26 @@ public class graphic extends JFrame {
     	
     	for(int i=0;numberTags<=this.maxNumberTags;i++) {
     		
-    		series1.add(numberTags, this.lbMetrics.get(i).getNumberEmptySlots());
-    		series2.add(numberTags, this.elMetrics.get(i).getNumberEmptySlots());
+    			if(this.choosenEstimators==1) {
+    				series1.add(numberTags, this.lbMetrics.get(i).getNumberEmptySlots());
+    			}else if(this.choosenEstimators==2) {
+    				series2.add(numberTags, this.elMetrics.get(i).getNumberEmptySlots());
+    			}else {
+    				series1.add(numberTags, this.lbMetrics.get(i).getNumberEmptySlots());
+    	    		series2.add(numberTags, this.elMetrics.get(i).getNumberEmptySlots());
+    			}
 			
 			numberTags+=this.incrementTagsBy;
 		}        
 
         XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series1);
-        dataset.addSeries(series2);
+        
+        if(this.choosenEstimators!=2)
+        	dataset.addSeries(series1);
+        
+        if(this.choosenEstimators!=1)
+        	dataset.addSeries(series2);
+        
 
         return dataset;
     }
@@ -95,15 +108,26 @@ public class graphic extends JFrame {
     	
     	for(int i=0;numberTags<=this.maxNumberTags;i++) {
     		
-    		series1.add(numberTags, this.lbMetrics.get(i).getNumberCollisionSlots());
-    		series2.add(numberTags, this.elMetrics.get(i).getNumberCollisionSlots());
+    		if(this.choosenEstimators==1) {
+				series1.add(numberTags, this.lbMetrics.get(i).getNumberCollisionSlots());
+			}else if(this.choosenEstimators==2) {
+				series2.add(numberTags, this.elMetrics.get(i).getNumberCollisionSlots());
+			}else {
+				series1.add(numberTags, this.lbMetrics.get(i).getNumberCollisionSlots());
+	    		series2.add(numberTags, this.elMetrics.get(i).getNumberCollisionSlots());
+			}
 			
 			numberTags+=this.incrementTagsBy;
 		}        
 
         XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series1);
-        dataset.addSeries(series2);
+        
+        if(this.choosenEstimators!=2)
+        	dataset.addSeries(series1);
+        
+        if(this.choosenEstimators!=1)
+        	dataset.addSeries(series2);
+        
 
         return dataset;
     }
@@ -116,15 +140,25 @@ public class graphic extends JFrame {
     	
     	for(int i=0;numberTags<=this.maxNumberTags;i++) {
     		
-    		series1.add(numberTags, this.lbMetrics.get(i).getEfficiency());
-    		series2.add(numberTags, this.elMetrics.get(i).getEfficiency());
+    		if(this.choosenEstimators==1) {
+				series1.add(numberTags, this.lbMetrics.get(i).getEfficiency());
+			}else if(this.choosenEstimators==2) {
+				series2.add(numberTags, this.elMetrics.get(i).getEfficiency());
+			}else {
+				series1.add(numberTags, this.lbMetrics.get(i).getEfficiency());
+	    		series2.add(numberTags, this.elMetrics.get(i).getEfficiency());
+			}
 			
 			numberTags+=this.incrementTagsBy;
 		}        
 
         XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series1);
-        dataset.addSeries(series2);
+        
+        if(this.choosenEstimators!=2)
+        	dataset.addSeries(series1);
+        
+        if(this.choosenEstimators!=1)
+        	dataset.addSeries(series2);
 
         return dataset;
     }
@@ -137,15 +171,25 @@ public class graphic extends JFrame {
     	
     	for(int i=0;numberTags<=this.maxNumberTags;i++) {
     		
-    		series1.add(numberTags, this.lbMetrics.get(i).getNumberTotalSlots());
-    		series2.add(numberTags, this.elMetrics.get(i).getNumberTotalSlots());
+    		if(this.choosenEstimators==1) {
+				series1.add(numberTags, this.lbMetrics.get(i).getNumberTotalSlots());
+			}else if(this.choosenEstimators==2) {
+				series2.add(numberTags, this.elMetrics.get(i).getNumberTotalSlots());
+			}else {
+				series1.add(numberTags, this.lbMetrics.get(i).getNumberTotalSlots());
+	    		series2.add(numberTags, this.elMetrics.get(i).getNumberTotalSlots());
+			}
 			
 			numberTags+=this.incrementTagsBy;
 		}        
 
         XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series1);
-        dataset.addSeries(series2);
+        
+        if(this.choosenEstimators!=2)
+        	dataset.addSeries(series1);
+        
+        if(this.choosenEstimators!=1)
+        	dataset.addSeries(series2);
 
         return dataset;
     }
