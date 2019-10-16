@@ -49,9 +49,11 @@ public class EomLee extends Estimator {
 	
 	public int calculateNextFrameSize () {
 		
-		if(this.Y<=0.001)
-			return (int) Math.ceil(this.Y*this.getNumberCollisionSlots());
+		if(Math.abs(this._Y-this.Y)>=0.001)
+			return (int) Math.ceil((this.Y*this.getNumberCollisionSlots()));
+			//return (int) Math.abs(Math.round((this.Y*this.getNumberCollisionSlots())));
 		
+		this._Y=this.Y;
 		this.B=this.calculateB();
 		this.Y=this.calculateY();
 		
@@ -59,26 +61,26 @@ public class EomLee extends Estimator {
 	}
 	
 	public double calculateB() {
-		
-		return this.frameSize/(_Y*this.getNumberCollisionSlots()+this.getNumberSucessSlots());
+		double total=this.getNumberCollisionSlots()+this.getNumberSucessSlots()+this.frameSize;
+		//return this.frameSize/(_Y*this.getNumberCollisionSlots()+this.getNumberSucessSlots());
+		return total/((_Y)*this.getNumberCollisionSlots())+this.getNumberSucessSlots();
 	}
 	
 	public double calculateY() {
-		
+		/*
 		if(this.totalFrames==0)
 			return this.Y;
 		
-		this._Y=this.Y;
+		this._Y=this.Y;*/
 	
-		double frac = -(1.0/this.B);
-		double nom = 1.0 - Math.exp(frac);
-		double den = this.B*(1.0-(1.0+(-frac))*Math.exp(frac));
+		double frac = Math.exp (-1/this.B);
+		double nom = 1 - frac;
+		double den = this.B*(1-(1+(1/this.B))*frac);
 		double result = nom/den;
 		return result;
 	}
 
 	public static void main(String[] args) {
-		
 		
 	}
 
