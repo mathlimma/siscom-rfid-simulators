@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -174,6 +175,41 @@ public class graphic extends JFrame {
         return dataset;
     }
     
+    private XYDataset createDatasetEstimatorTime() {
+    	XYSeries series1 = new XYSeries("LowerBound");
+    	XYSeries series2 = new XYSeries("Eomlee");
+    	
+    	int numberTags = this.inicialNumberTags;
+    	
+    	for(int i=0;numberTags<=this.maxNumberTags;i++) {
+    		
+    		if(this.choosenEstimators==1) {
+    			long seconds = TimeUnit.MILLISECONDS.toSeconds(this.lbMetrics.get(i).getEstimatorTime());
+				series1.add(numberTags,seconds*1000000);
+			}else if(this.choosenEstimators==2) {
+				long seconds = TimeUnit.MILLISECONDS.toSeconds(this.elMetrics.get(i).getEstimatorTime());
+				series2.add(numberTags,seconds*1000000);
+			}else {
+				long seconds = TimeUnit.MILLISECONDS.toSeconds(this.lbMetrics.get(i).getEstimatorTime());
+				long seconds2 = TimeUnit.MILLISECONDS.toSeconds(this.elMetrics.get(i).getEstimatorTime());
+				series1.add(numberTags, seconds*1000000);
+	    		series2.add(numberTags, seconds2*1000000);
+			}
+			
+			numberTags+=this.incrementTagsBy;
+		}        
+
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        
+        if(this.choosenEstimators!=2)
+        	dataset.addSeries(series1);
+        
+        if(this.choosenEstimators!=1)
+        	dataset.addSeries(series2);
+
+        return dataset;
+    }
+    
     private XYDataset createDatasetTotalSlots() {
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
@@ -253,7 +289,8 @@ public class graphic extends JFrame {
     	initUI(createDatasetEfficiency(),"Eficiencia");
     	initUI(createDatasetEmpty(),"Numero de Slots Vazios");
     	initUI(createDatasetCollision(),"Numero de Slots em Colisoees");
-       /* SwingUtilities.invokeLater(() -> {
+    	initUI(createDatasetEstimatorTime(),"Tempo do simulador");
+       /*SwingUtilities.invokeLater(() -> {
             this.setVisible(true);
         });*/
     }
