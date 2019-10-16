@@ -5,21 +5,23 @@ import general.Tag;
 
 public class EomLee extends Estimator {
 	
-	private double B;
-	private double Y;
-	private double _Y;  // Yk-1
-	
 	public EomLee(int numberTags, int frameSize) {
 		super(numberTags, frameSize);
-		this.B= Double.POSITIVE_INFINITY;
-		this.Y= 2;
-		this._Y= 2;
 	}
 	
 	
 	public void simulate () {
+		this.metrics.setEstimatorTime(System.currentTimeMillis());
+		
+		int numCollisionSlots=0;
+		int numSucessSlots=0;
+		int numEmptySlots=0;
 		
 		while(!this.tags.isEmpty()){
+			numCollisionSlots=0;
+			numSucessSlots=0;
+			numEmptySlots=0;
+			
 			this.setNumberTotalSlots(this.frameSize+this.getNumberTotalSlots());
 			
 			for(Tag tg : this.tags) {
@@ -29,53 +31,46 @@ public class EomLee extends Estimator {
 			int frameCollisions=0;
 			for(int i=0;i<frameSize;i++) {
 				if(this.frame[i]==0) {
-					this.setNumberEmptySlots(this.getNumberEmptySlots()+1);
+					numEmptySlots++;
 				}else if(this.frame[i]==1) {
-					this.setNumberSucessSlots(this.getNumberSucessSlots()+1);
+					numSucessSlots++;
 					this.tags.remove(0);
 				}else {
-					this.setNumberCollisionSlots(this.getNumberCollisionSlots()+1);
+					numCollisionSlots++;
 					frameCollisions++;
 				}
 			}
 			
-			this.frameSize = this.calculateNextFrameSize();
+			this.setNumberEmptySlots(this.getNumberEmptySlots()+numEmptySlots);
+			this.setNumberSucessSlots(this.getNumberSucessSlots()+numSucessSlots);
+			this.setNumberCollisionSlots(this.getNumberCollisionSlots()+numCollisionSlots);
+			
+			this.frameSize = this.calculateNextFrameSize(this.frameSize,numCollisionSlots,numSucessSlots);
 			this.resetFrame(this.frameSize);
 			this.totalFrames++;
 		}
 		
 		this.setEfficiecy(this.getNumberSucessSlots()/this.getNumberTotalSlots());
+		this.metrics.setEstimatorTime(System.currentTimeMillis()-this.metrics.getEstimatorTime());
 	}
 	
-	public int calculateNextFrameSize () {
+	public int calculateNextFrameSize (int f, int c, int s) {
 		
-		if(this.Y<=0.001)
-			return (int) Math.ceil(this.Y*this.getNumberCollisionSlots());
+		double B, k1, num, den, frac;
+		double k = 2.0;
+		do {
+			k1=k;
+			B= f/((k1*c)+s);
+			frac = Math.exp(-(1.0/B));
+			num = 1.0 - frac;
+			den = B*(1.0-(1.0+(1.0/B))*frac);
+			k = num/den;
+			
+		} while(Math.abs(k1-k)>=0.0001);
 		
-		this.B=this.calculateB();
-		this.Y=this.calculateY();
-		
-		return (int)Math.ceil(this.Y*this.getNumberCollisionSlots());
+		return (int)Math.ceil(k*c);
 	}
 	
-	public double calculateB() {
-		
-		return this.frameSize/(_Y*this.getNumberCollisionSlots()+this.getNumberSucessSlots());
-	}
-	
-	public double calculateY() {
-		
-		if(this.totalFrames==0)
-			return this.Y;
-		
-		this._Y=this.Y;
-	
-		double frac = -(1.0/this.B);
-		double nom = 1.0 - Math.exp(frac);
-		double den = this.B*(1.0-(1.0+(-frac))*Math.exp(frac));
-		double result = nom/den;
-		return result;
-	}
 
 	public static void main(String[] args) {
 		

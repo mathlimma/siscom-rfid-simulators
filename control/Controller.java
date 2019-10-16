@@ -61,6 +61,7 @@ public class Controller {
 	}
 	
 	private void runEstimator(Estimator est) {
+		est.getMetrics().setEstimatorTime(System.currentTimeMillis());
 		
 		int numberTags = this.inicialNumberTags;
 		
@@ -75,15 +76,16 @@ public class Controller {
 				est = resetEst(est, numberTags, this.inicialFrameSize);
 			}
 			
+			numberTags+=this.incrementTagsBy;
 			this.metrics = this.metrics.divByNumberRepetitions(this.repetitionsEachNumberTags);
-			
+			this.metrics.setEstimatorTime(this.metrics.getEstimatorTime()/1000);
+
 			if (est instanceof LowerBound) {
 				this.graphic.lbMetrics.add(this.metrics);
 			}else {
 				this.graphic.elMetrics.add(this.metrics);
 			}
 			
-			numberTags+=this.incrementTagsBy;
 		}
 		
 	}
@@ -95,7 +97,6 @@ public class Controller {
 		}
 		
 		this.graphic.plotGraphic();
-		
 	}
 	
 	public static void main(String[] args) {

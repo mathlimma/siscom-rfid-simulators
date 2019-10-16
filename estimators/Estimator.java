@@ -88,6 +88,7 @@ public abstract class Estimator {
 	}
 	
 	public void resetFrame(int frameSize) {
+		this.frameSize = frameSize;
 		this.frame = new int [frameSize];
 	}
 	
