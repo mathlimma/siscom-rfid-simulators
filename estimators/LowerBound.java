@@ -13,7 +13,7 @@ public class LowerBound extends Estimator {
 		this.metrics.setEstimatorTime(System.currentTimeMillis());
 		while(!this.tags.isEmpty()){
 			this.setNumberTotalSlots(this.frameSize+this.getNumberTotalSlots());
-			//System.out.println(this.getFrameSize());
+			
 			for(Tag tg : this.tags) {
 				this.frame[tg.getRandomNumber(this.frameSize)]++;
 			}
@@ -32,7 +32,6 @@ public class LowerBound extends Estimator {
 			}
 			
 			this.setFrameSize(frameCollisions * 2);
-			//System.out.println(this.getFrameSize());
 			this.resetFrame(this.frameSize);
 			this.totalFrames++;
 		}

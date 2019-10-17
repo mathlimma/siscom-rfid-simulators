@@ -8,7 +8,7 @@ import estimators.EomLee;
 import estimators.Estimator;
 import estimators.LowerBound;
 import general.Metrics;
-import graphic.graphic;
+import graphic.Graphic;
 
 public class Controller {
 	
@@ -22,7 +22,7 @@ public class Controller {
 	
 	private Metrics metrics;
 	
-	private graphic graphic;
+	private Graphic graphic;
 	
 	public Controller (int iniNumTags, int incTagsBy,
 		int maxNumTags, int numRepet, int iniFrameSize, int choosenEstimators) {
@@ -45,7 +45,7 @@ public class Controller {
 			this.est.add(new EomLee(this.inicialNumberTags,this.inicialFrameSize));
 		}
 			
-		this.graphic = new graphic(choosenEstimators,this.incrementTagsBy,this.inicialNumberTags,this.maxNumberTags);
+		this.graphic = new Graphic(choosenEstimators,this.incrementTagsBy,this.inicialNumberTags,this.maxNumberTags);
 		
 	}
 	

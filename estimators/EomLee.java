@@ -56,38 +56,6 @@ public class EomLee extends Estimator {
 	
 	public int calculateNextFrameSize (int f, int c, int s) {
 		
-<<<<<<< HEAD
-		if(Math.abs(this._Y-this.Y)>=0.001)
-			return (int) Math.ceil((this.Y*this.getNumberCollisionSlots()));
-			//return (int) Math.abs(Math.round((this.Y*this.getNumberCollisionSlots())));
-		
-		this._Y=this.Y;
-		this.B=this.calculateB();
-		this.Y=this.calculateY();
-		
-		return (int)Math.ceil(this.Y*this.getNumberCollisionSlots());
-	}
-	
-	public double calculateB() {
-		double total=this.getNumberCollisionSlots()+this.getNumberSucessSlots()+this.frameSize;
-		//return this.frameSize/(_Y*this.getNumberCollisionSlots()+this.getNumberSucessSlots());
-		return total/((_Y)*this.getNumberCollisionSlots())+this.getNumberSucessSlots();
-	}
-	
-	public double calculateY() {
-		/*
-		if(this.totalFrames==0)
-			return this.Y;
-		
-		this._Y=this.Y;*/
-	
-		double frac = Math.exp (-1/this.B);
-		double nom = 1 - frac;
-		double den = this.B*(1-(1+(1/this.B))*frac);
-		double result = nom/den;
-		return result;
-	}
-=======
 		double B, k1, num, den, frac;
 		double k = 2.0;
 		do {
@@ -98,14 +66,14 @@ public class EomLee extends Estimator {
 			den = B*(1.0-(1.0+(1.0/B))*frac);
 			k = num/den;
 			
-		} while(Math.abs(k1-k)>=0.0001);
+		} while(Math.abs(k1-k)>=0.001);
 		
 		return (int)Math.ceil(k*c);
 	}
 	
->>>>>>> 2087cfd80943ebe9ac56432504348d0d7e50727b
 
 	public static void main(String[] args) {
+		
 		
 	}
 
