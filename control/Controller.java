@@ -6,6 +6,7 @@ import java.util.List;
 
 import estimators.EomLee;
 import estimators.Estimator;
+import estimators.ILCM;
 import estimators.LowerBound;
 import general.Metrics;
 import graphic.Graphic;
@@ -43,6 +44,7 @@ public class Controller {
 		}else {
 			this.est.add(new LowerBound(this.inicialNumberTags,this.inicialFrameSize));
 			this.est.add(new EomLee(this.inicialNumberTags,this.inicialFrameSize));
+			this.est.add(new ILCM(this.inicialNumberTags, this.inicialFrameSize));
 		}
 			
 		this.graphic = new Graphic(choosenEstimators,this.incrementTagsBy,this.inicialNumberTags,this.maxNumberTags);
@@ -56,7 +58,8 @@ public class Controller {
 		}else if(est instanceof EomLee) {
 			return new EomLee(iniNumTags,iniFrameSize);
 		}
-		return est;
+		//return est;
+		return new ILCM(iniNumTags, iniFrameSize);
 		
 	}
 	
@@ -96,7 +99,7 @@ public class Controller {
 			runEstimator(this.est.get(i));
 		}
 		
-		this.graphic.plotGraphic();
+		//this.graphic.plotGraphic();
 	}
 	
 	public static void main(String[] args) {
