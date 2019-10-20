@@ -3,9 +3,9 @@ package estimators;
 import java.lang.Math;
 import general.Tag;
 
-public class EomLee extends Estimator {
+public class ILCM extends Estimator {
 	
-	public EomLee(int numberTags, int frameSize) {
+	public ILCM(int numberTags, int frameSize) {
 		super(numberTags, frameSize);
 	}
 	
@@ -28,7 +28,6 @@ public class EomLee extends Estimator {
 				this.frame[tg.getRandomNumber(this.frameSize)]++;
 			}
 			
-			int frameCollisions=0;
 			for(int i=0;i<frameSize;i++) {
 				if(this.frame[i]==0) {
 					numEmptySlots++;
@@ -37,7 +36,6 @@ public class EomLee extends Estimator {
 					this.tags.remove(0);
 				}else {
 					numCollisionSlots++;
-					frameCollisions++;
 				}
 			}
 			
@@ -45,7 +43,7 @@ public class EomLee extends Estimator {
 			this.setNumberSucessSlots(this.getNumberSucessSlots()+numSucessSlots);
 			this.setNumberCollisionSlots(this.getNumberCollisionSlots()+numCollisionSlots);
 			
-			this.frameSize = this.calculateNextFrameSize(this.frameSize,numCollisionSlots,numSucessSlots);
+			this.frameSize = this.calculateNextFrameSize(this.getNumberEmptySlots(),numCollisionSlots,numSucessSlots);
 			this.resetFrame(this.frameSize);
 			this.totalFrames++;
 		}
@@ -54,21 +52,21 @@ public class EomLee extends Estimator {
 		this.metrics.setEstimatorTime(System.currentTimeMillis()-this.metrics.getEstimatorTime());
 	}
 	
-	public int calculateNextFrameSize (int f, int c, int s) {
+	public int calculateNextFrameSize (double E, int C, int S) {
 		
-		double B, k1, num, den, frac;
-		double k = 2.0;
-		do {
-			k1=k;
-			B= f/((k1*c)+s);
-			frac = Math.exp(-(1.0/B));
-			num = 1.0 - frac;
-			den = B*(1.0-(1.0+(1.0/B))*frac);
-			k = num/den;
-			
-		} while(Math.abs(k1-k)>=0.001);
+		double L = E+S+C;
+		double k = (1.2592+1.513*L)*Math.tan(1.234*Math.pow(L, -0.9907)*C);
+		double l = C/((4.344*L-16.28)+(L/(-2.282-0.273*L)*C)+0.2407*Math.log(L+42.56));
 		
-		return (int)Math.ceil(k*c);
+		if(k<0) {
+			k=0;
+		}
+		double res=k*S+l;
+		if(C==0){
+			res=S;
+		}
+		
+		return (int)Math.ceil(res);
 	}
 	
 
