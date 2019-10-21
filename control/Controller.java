@@ -78,7 +78,7 @@ public class Controller {
 			
 			numberTags+=this.incrementTagsBy;
 			this.metrics = this.metrics.divByNumberRepetitions(this.repetitionsEachNumberTags);
-			this.metrics.setEstimatorTime(this.metrics.getEstimatorTime());
+			this.metrics.setEstimatorTime(System.currentTimeMillis()-this.metrics.getEstimatorTime());
 
 			if (est instanceof LowerBound) {
 				this.graphic.lbMetrics.add(this.metrics);

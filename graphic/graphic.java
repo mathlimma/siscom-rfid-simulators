@@ -184,16 +184,19 @@ public class graphic extends JFrame {
     	for(int i=0;numberTags<=this.maxNumberTags;i++) {
     		
     		if(this.choosenEstimators==1) {
-    			long seconds = TimeUnit.MILLISECONDS.toSeconds(this.lbMetrics.get(i).getEstimatorTime());
-				series1.add(numberTags,seconds*1000000);
+    			
+    			//System.out.println(this.lbMetrics.get(i).getEstimatorTime());
+				series1.add(numberTags,this.lbMetrics.get(i).getEstimatorTime());
 			}else if(this.choosenEstimators==2) {
-				long seconds = TimeUnit.MILLISECONDS.toSeconds(this.elMetrics.get(i).getEstimatorTime());
-				series2.add(numberTags,seconds*1000000);
+				
+				//System.out.println(this.elMetrics.get(i).getEstimatorTime());
+				series2.add(numberTags,this.elMetrics.get(i).getEstimatorTime());
 			}else {
-				long seconds = TimeUnit.MILLISECONDS.toSeconds(this.lbMetrics.get(i).getEstimatorTime());
-				long seconds2 = TimeUnit.MILLISECONDS.toSeconds(this.elMetrics.get(i).getEstimatorTime());
-				series1.add(numberTags, seconds*1000000);
-	    		series2.add(numberTags, seconds2*1000000);
+				
+				//System.out.println(this.lbMetrics.get(i).getEstimatorTime());
+				//System.out.println(this.elMetrics.get(i).getEstimatorTime());
+				series1.add(numberTags, this.lbMetrics.get(i).getEstimatorTime());
+	    		series2.add(numberTags, this.elMetrics.get(i).getEstimatorTime());
 			}
 			
 			numberTags+=this.incrementTagsBy;

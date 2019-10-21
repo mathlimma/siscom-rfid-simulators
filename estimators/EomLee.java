@@ -66,7 +66,7 @@ public class EomLee extends Estimator {
 			den = B*(1.0-(1.0+(1.0/B))*frac);
 			k = num/den;
 			
-		} while(Math.abs(k1-k)>=0.0001);
+		} while(Math.abs(k1-k)>=0.001);
 		
 		return (int)Math.ceil(k*c);
 	}
