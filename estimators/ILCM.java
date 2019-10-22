@@ -43,7 +43,7 @@ public class ILCM extends Estimator {
 			this.setNumberSucessSlots(this.getNumberSucessSlots()+numSucessSlots);
 			this.setNumberCollisionSlots(this.getNumberCollisionSlots()+numCollisionSlots);
 			
-			this.frameSize = this.calculateNextFrameSize(this.getNumberEmptySlots(),numCollisionSlots,numSucessSlots);
+			this.frameSize = this.calculateNextFrameSize(this.getNumberEmptySlots(),this.getNumberSucessSlots(),this.getNumberCollisionSlots());
 			this.resetFrame(this.frameSize);
 			this.totalFrames++;
 		}
@@ -52,11 +52,11 @@ public class ILCM extends Estimator {
 		this.metrics.setEstimatorTime(System.currentTimeMillis()-this.metrics.getEstimatorTime());
 	}
 	
-	public int calculateNextFrameSize (double E, int C, int S) {
+	public int calculateNextFrameSize (double E, double C, double S) {
 		
 		double L = E+S+C;
-		double k = (1.2592+1.513*L)*Math.tan(1.234*Math.pow(L, -0.9907)*C);
-		double l = C/((4.344*L-16.28)+(L/(-2.282-0.273*L)*C)+0.2407*Math.log(L+42.56));
+		double k = (1.2592+(1.513*L))*Math.tan(1.234*(Math.pow(L, -0.9907))*C);
+		double l = C/((4.344*L-16.28)+(L/(-2.282-0.273*L)*C)+(0.2407*Math.log(L+42.56)));
 		
 		if(k<0) {
 			k=0;
@@ -67,6 +67,7 @@ public class ILCM extends Estimator {
 		}
 		
 		return (int)Math.ceil(res);
+		
 	}
 	
 

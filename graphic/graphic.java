@@ -34,6 +34,7 @@ public class Graphic extends JFrame {
 	
 	public List<Metrics> lbMetrics;
 	public List<Metrics> elMetrics;
+	public List<Metrics> ilcmMetrics;
 
     public Graphic(int choosenEstimators,int incTagsBy, int iniNumberTags, int maxNumTags) {
         
@@ -49,6 +50,7 @@ public class Graphic extends JFrame {
 		}else {
 			this.lbMetrics = new ArrayList<Metrics>();
 			this.elMetrics = new ArrayList<Metrics>();
+			this.ilcmMetrics = new ArrayList<Metrics>();
 		}
 		
     }
@@ -56,6 +58,7 @@ public class Graphic extends JFrame {
     private XYDataset createDatasetEmpty() {
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
+    	XYSeries series3 = new XYSeries("ILCM");
     	
     	int numberTags = this.inicialNumberTags;
     	
@@ -68,6 +71,7 @@ public class Graphic extends JFrame {
     			}else {
     				series1.add(numberTags, this.lbMetrics.get(i).getNumberEmptySlots());
     	    		series2.add(numberTags, this.elMetrics.get(i).getNumberEmptySlots());
+    	    		series3.add(numberTags, this.ilcmMetrics.get(i).getNumberEmptySlots());
     			}
 			
 			numberTags+=this.incrementTagsBy;
@@ -86,6 +90,7 @@ public class Graphic extends JFrame {
     private XYDataset createDatasetCollision() {
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
+    	XYSeries series3 = new XYSeries("ILCM");
     	
     	int numberTags = this.inicialNumberTags;
     	
@@ -98,6 +103,7 @@ public class Graphic extends JFrame {
 			}else {
 				series1.add(numberTags, this.lbMetrics.get(i).getNumberCollisionSlots());
 	    		series2.add(numberTags, this.elMetrics.get(i).getNumberCollisionSlots());
+	    		series3.add(numberTags, this.ilcmMetrics.get(i).getNumberCollisionSlots());
 			}
 			
 			numberTags+=this.incrementTagsBy;
@@ -118,6 +124,7 @@ public class Graphic extends JFrame {
     private XYDataset createDatasetEfficiency() {
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
+    	XYSeries series3 = new XYSeries("ILCM");
     	
     	int numberTags = this.inicialNumberTags;
     	
@@ -130,6 +137,7 @@ public class Graphic extends JFrame {
 			}else {
 				series1.add(numberTags, this.lbMetrics.get(i).getEfficiency());
 	    		series2.add(numberTags, this.elMetrics.get(i).getEfficiency());
+	    		series3.add(numberTags, this.ilcmMetrics.get(i).getEfficiency());
 			}
 			
 			numberTags+=this.incrementTagsBy;
@@ -149,6 +157,7 @@ public class Graphic extends JFrame {
     private XYDataset createDatasetEstimatorTime() {
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
+    	XYSeries series3 = new XYSeries("ILCM");
     	
     	int numberTags = this.inicialNumberTags;
     	
@@ -168,6 +177,7 @@ public class Graphic extends JFrame {
 				//System.out.println(this.elMetrics.get(i).getEstimatorTime());
 				series1.add(numberTags, this.lbMetrics.get(i).getEstimatorTime());
 	    		series2.add(numberTags, this.elMetrics.get(i).getEstimatorTime());
+	    		series3.add(numberTags, this.ilcmMetrics.get(i).getEstimatorTime());
 			}
 			
 			numberTags+=this.incrementTagsBy;
@@ -187,6 +197,7 @@ public class Graphic extends JFrame {
     private XYDataset createDatasetTotalSlots() {
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
+    	XYSeries series3 = new XYSeries("ILCM");
     	
     	int numberTags = this.inicialNumberTags;
     	
@@ -199,6 +210,7 @@ public class Graphic extends JFrame {
 			}else {
 				series1.add(numberTags, this.lbMetrics.get(i).getNumberTotalSlots());
 	    		series2.add(numberTags, this.elMetrics.get(i).getNumberTotalSlots());
+	    		series3.add(numberTags, this.ilcmMetrics.get(i).getNumberTotalSlots());
 			}
 			
 			numberTags+=this.incrementTagsBy;

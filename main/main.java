@@ -33,7 +33,7 @@ public class main {
 		System.out.println("heh");
 		
 		
-		//Teste: 3 100 100 1000 2000 64
+		//Teste: 3 100 100 1000 20 64
 		
 		
 		

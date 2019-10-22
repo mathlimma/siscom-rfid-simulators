@@ -85,8 +85,11 @@ public class Controller {
 
 			if (est instanceof LowerBound) {
 				this.graphic.lbMetrics.add(this.metrics);
-			}else {
+			}else if (est instanceof EomLee) {
 				this.graphic.elMetrics.add(this.metrics);
+			}
+			else {
+				this.graphic.ilcmMetrics.add(this.metrics);
 			}
 			
 		}
