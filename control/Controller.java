@@ -6,6 +6,7 @@ import java.util.List;
 
 import estimators.EomLee;
 import estimators.Estimator;
+import estimators.ILCM;
 import estimators.LowerBound;
 import general.Metrics;
 import graphic.Graphic;
@@ -43,6 +44,7 @@ public class Controller {
 		}else {
 			this.est.add(new LowerBound(this.inicialNumberTags,this.inicialFrameSize));
 			this.est.add(new EomLee(this.inicialNumberTags,this.inicialFrameSize));
+			this.est.add(new ILCM(this.inicialNumberTags, this.inicialFrameSize));
 		}
 			
 		this.graphic = new Graphic(choosenEstimators,this.incrementTagsBy,this.inicialNumberTags,this.maxNumberTags);
@@ -55,8 +57,9 @@ public class Controller {
 			return new LowerBound(iniNumTags,iniFrameSize);
 		}else if(est instanceof EomLee) {
 			return new EomLee(iniNumTags,iniFrameSize);
+		}else {
+			return new ILCM(iniNumTags, iniFrameSize);
 		}
-		return est;
 		
 	}
 	
@@ -78,12 +81,16 @@ public class Controller {
 			
 			numberTags+=this.incrementTagsBy;
 			this.metrics = this.metrics.divByNumberRepetitions(this.repetitionsEachNumberTags);
-			this.metrics.setEstimatorTime(this.metrics.getEstimatorTime());
+			this.metrics.setEstimatorTime(System.currentTimeMillis()-this.metrics.getEstimatorTime());
 
 			if (est instanceof LowerBound) {
 				this.graphic.lbMetrics.add(this.metrics);
-			}else {
+			}else if (est instanceof EomLee) {
 				this.graphic.elMetrics.add(this.metrics);
+			}
+			else {
+				System.out.println("aaaa");
+				this.graphic.ilcmMetrics.add(this.metrics);
 			}
 			
 		}
