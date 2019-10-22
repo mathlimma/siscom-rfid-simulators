@@ -35,6 +35,7 @@ public class Graphic extends JFrame {
 	public List<Metrics> lbMetrics;
 	public List<Metrics> elMetrics;
 	public List<Metrics> ilcmMetrics;
+	public List<Metrics> vaMetrics;
 
     public Graphic(int choosenEstimators,int incTagsBy, int iniNumberTags, int maxNumTags) {
         
@@ -51,6 +52,7 @@ public class Graphic extends JFrame {
 			this.lbMetrics = new ArrayList<Metrics>();
 			this.elMetrics = new ArrayList<Metrics>();
 			this.ilcmMetrics = new ArrayList<Metrics>();
+			this.vaMetrics = new ArrayList<Metrics>();
 		}
 		
     }
@@ -59,6 +61,7 @@ public class Graphic extends JFrame {
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
     	XYSeries series3 = new XYSeries("ILCM");
+    	XYSeries series4 = new XYSeries("Vahedi");
     	
     	int numberTags = this.inicialNumberTags;
     	
@@ -72,6 +75,7 @@ public class Graphic extends JFrame {
     				series1.add(numberTags, this.lbMetrics.get(i).getNumberEmptySlots());
     	    		series2.add(numberTags, this.elMetrics.get(i).getNumberEmptySlots());
     	    		series3.add(numberTags, this.ilcmMetrics.get(i).getNumberEmptySlots());
+    	    		series4.add(numberTags, this.vaMetrics.get(i).getNumberEmptySlots());
     			}
 			
 			numberTags+=this.incrementTagsBy;
@@ -85,8 +89,11 @@ public class Graphic extends JFrame {
         if(this.choosenEstimators!=1)
         	dataset.addSeries(series2);
         
-        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
+        if(this.choosenEstimators!=1 && this.choosenEstimators!=2) {
         	dataset.addSeries(series3);
+        	dataset.addSeries(series4);
+        }
+        	
         
         return dataset;
     }
@@ -95,6 +102,7 @@ public class Graphic extends JFrame {
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
     	XYSeries series3 = new XYSeries("ILCM");
+    	XYSeries series4 = new XYSeries("Vahedi");
     	
     	int numberTags = this.inicialNumberTags;
     	
@@ -108,6 +116,7 @@ public class Graphic extends JFrame {
 				series1.add(numberTags, this.lbMetrics.get(i).getNumberCollisionSlots());
 	    		series2.add(numberTags, this.elMetrics.get(i).getNumberCollisionSlots());
 	    		series3.add(numberTags, this.ilcmMetrics.get(i).getNumberCollisionSlots());
+	    		series4.add(numberTags, this.vaMetrics.get(i).getNumberCollisionSlots());
 			}
 			
 			numberTags+=this.incrementTagsBy;
@@ -121,9 +130,10 @@ public class Graphic extends JFrame {
         if(this.choosenEstimators!=1)
         	dataset.addSeries(series2);
         
-        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
+        if(this.choosenEstimators!=1 && this.choosenEstimators!=2) {
         	dataset.addSeries(series3);
-        
+        	dataset.addSeries(series4);
+        }
 
         return dataset;
     }
@@ -132,6 +142,7 @@ public class Graphic extends JFrame {
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
     	XYSeries series3 = new XYSeries("ILCM");
+    	XYSeries series4 = new XYSeries("Vahedi");
     	
     	int numberTags = this.inicialNumberTags;
     	
@@ -145,6 +156,8 @@ public class Graphic extends JFrame {
 				series1.add(numberTags, this.lbMetrics.get(i).getEfficiency());
 	    		series2.add(numberTags, this.elMetrics.get(i).getEfficiency());
 	    		series3.add(numberTags, this.ilcmMetrics.get(i).getEfficiency());
+	    		series4.add(numberTags, this.vaMetrics.get(i).getEfficiency());
+
 			}
 			
 			numberTags+=this.incrementTagsBy;
@@ -158,9 +171,10 @@ public class Graphic extends JFrame {
         if(this.choosenEstimators!=1)
         	dataset.addSeries(series2);
         
-        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
+        if(this.choosenEstimators!=1 && this.choosenEstimators!=2) {
         	dataset.addSeries(series3);
-
+        	dataset.addSeries(series4);
+        }
         return dataset;
     }
     
@@ -168,6 +182,7 @@ public class Graphic extends JFrame {
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
     	XYSeries series3 = new XYSeries("ILCM");
+    	XYSeries series4 = new XYSeries("Vahedi");
     	
     	int numberTags = this.inicialNumberTags;
     	
@@ -188,6 +203,8 @@ public class Graphic extends JFrame {
 				series1.add(numberTags, this.lbMetrics.get(i).getEstimatorTime());
 	    		series2.add(numberTags, this.elMetrics.get(i).getEstimatorTime());
 	    		series3.add(numberTags, this.ilcmMetrics.get(i).getEstimatorTime());
+	    		series4.add(numberTags, this.vaMetrics.get(i).getEstimatorTime());
+
 			}
 			
 			numberTags+=this.incrementTagsBy;
@@ -201,9 +218,10 @@ public class Graphic extends JFrame {
         if(this.choosenEstimators!=1)
         	dataset.addSeries(series2);
         
-        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
+        if(this.choosenEstimators!=1 && this.choosenEstimators!=2) {
         	dataset.addSeries(series3);
-
+        	dataset.addSeries(series4);
+        }
         return dataset;
     }
     
@@ -211,6 +229,7 @@ public class Graphic extends JFrame {
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
     	XYSeries series3 = new XYSeries("ILCM");
+    	XYSeries series4 = new XYSeries("Vahedi");
     	
     	int numberTags = this.inicialNumberTags;
     	
@@ -224,6 +243,8 @@ public class Graphic extends JFrame {
 				series1.add(numberTags, this.lbMetrics.get(i).getNumberTotalSlots());
 	    		series2.add(numberTags, this.elMetrics.get(i).getNumberTotalSlots());
 	    		series3.add(numberTags, this.ilcmMetrics.get(i).getNumberTotalSlots());
+	    		series4.add(numberTags, this.vaMetrics.get(i).getNumberTotalSlots());
+
 			}
 			
 			numberTags+=this.incrementTagsBy;
@@ -237,9 +258,10 @@ public class Graphic extends JFrame {
         if(this.choosenEstimators!=1)
         	dataset.addSeries(series2);
         
-        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
+        if(this.choosenEstimators!=1 && this.choosenEstimators!=2) {
         	dataset.addSeries(series3);
-
+        	dataset.addSeries(series4);
+        }
         return dataset;
     }
     
