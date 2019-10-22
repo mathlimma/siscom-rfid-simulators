@@ -212,6 +212,7 @@ public class Graphic extends JFrame {
         return dataset;
     }
     
+    
     public void plotGraphic() throws IOException {
     	DrawGraph plotTotalSlots=new DrawGraph(createDatasetTotalSlots(),"Numero de Slots");
     	plotTotalSlots.setVisible(true);
