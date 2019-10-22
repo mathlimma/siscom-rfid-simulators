@@ -3,9 +3,9 @@ package estimators;
 import java.lang.Math;
 import general.Tag;
 
-public class ILCM extends Estimator {
+public class Vahedi extends Estimator {
 	
-	public ILCM(int numberTags, int frameSize) {
+	public Vahedi(int numberTags, int frameSize) {
 		super(numberTags, frameSize);
 	}
 	
@@ -52,22 +52,41 @@ public class ILCM extends Estimator {
 		this.metrics.setEstimatorTime(System.currentTimeMillis()-this.metrics.getEstimatorTime());
 	}
 	
-	public int calculateNextFrameSize (double E, double C, double S) {
+	private int calculateNextFrameSize(int E, int C, int S){
+		int L = E + S + C;
+		int n =  S + 2*C;
+		double next = 0;
+		double previous = -1;
 		
-		double L = E+S+C;
-		double l = (1.2592+(1.513*L))*Math.tan(1.234*(Math.pow(L, -0.9907))*C);
-		double k = C/((4.344*L-16.28)+((L/(-2.282-0.273*L))*C))+0.2407*Math.log(L+42.56);
+		//System.out.println(E +  " " + S +  " " + C );
 		
-		if(k<0) {
-			k=0;
+		while (previous < next) {
+			double p1 = Math.pow((1 - (E/L)), n);
+			//double x = (fac(n)/(fac(S)*fac(n-S)));
+			double x = fac(n)/facMult(new int[]{S,n-S});
+			double y = Math.pow((L-E-S), (n-S)) / Math.pow((L-E), n);
+			double p2 = x*y*fac(S);
+			double p3 = 0;
+
+			for(int k = 0; k < C; k++) {
+				for(int v = 0; v < C - k; v++) {
+					double a = Math.pow(-1, k+v);
+					//double b = fac(C)/(fac(k)*fac(C-k));
+					double b = fac(C)/facMult(new int[]{k,C-k});
+					//double c = fac(C-k)/(fac(v)*fac(C-k-v));
+					double c = fac(C-k)/facMult(new int[]{v,(C-k-v)});
+					double d = fac(n-S)/fac(n-S-k);
+					double e = Math.pow((C-k-v), (n-S-k))/Math.pow(C, (n-S));
+					p3 = p3 + a * b * c * d * e;
+				}
+			}
+
+			previous = next;
+			next = (fac(L)/fac(E)*fac(S)*fac(C))*p1*p2*p3;
+			n = n + 1;
 		}
-		double res=k*S+l;
-		if(C==0){
-			res=S;
-		}
 		
-		return (int)Math.ceil(res);
-		
+		return n - 2;
 	}
 	
 

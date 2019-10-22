@@ -84,6 +84,10 @@ public class Graphic extends JFrame {
         
         if(this.choosenEstimators!=1)
         	dataset.addSeries(series2);
+        
+        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
+        	dataset.addSeries(series3);
+        
         return dataset;
     }
     
@@ -116,6 +120,9 @@ public class Graphic extends JFrame {
         
         if(this.choosenEstimators!=1)
         	dataset.addSeries(series2);
+        
+        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
+        	dataset.addSeries(series3);
         
 
         return dataset;
@@ -150,6 +157,9 @@ public class Graphic extends JFrame {
         
         if(this.choosenEstimators!=1)
         	dataset.addSeries(series2);
+        
+        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
+        	dataset.addSeries(series3);
 
         return dataset;
     }
@@ -190,6 +200,9 @@ public class Graphic extends JFrame {
         
         if(this.choosenEstimators!=1)
         	dataset.addSeries(series2);
+        
+        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
+        	dataset.addSeries(series3);
 
         return dataset;
     }
@@ -223,6 +236,9 @@ public class Graphic extends JFrame {
         
         if(this.choosenEstimators!=1)
         	dataset.addSeries(series2);
+        
+        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
+        	dataset.addSeries(series3);
 
         return dataset;
     }

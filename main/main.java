@@ -36,9 +36,6 @@ public class main {
 		//Teste: 3 100 100 1000 20 64
 		
 		
-		
-		
-
 	}
 
 }

@@ -57,9 +57,9 @@ public class Controller {
 			return new LowerBound(iniNumTags,iniFrameSize);
 		}else if(est instanceof EomLee) {
 			return new EomLee(iniNumTags,iniFrameSize);
+		}else {
+			return new ILCM(iniNumTags, iniFrameSize);
 		}
-		//return est;
-		return new ILCM(iniNumTags, iniFrameSize);
 		
 	}
 	
@@ -89,6 +89,7 @@ public class Controller {
 				this.graphic.elMetrics.add(this.metrics);
 			}
 			else {
+				System.out.println("aaaa");
 				this.graphic.ilcmMetrics.add(this.metrics);
 			}
 			
@@ -102,7 +103,7 @@ public class Controller {
 			runEstimator(this.est.get(i));
 		}
 		
-		//this.graphic.plotGraphic();
+		this.graphic.plotGraphic();
 	}
 	
 	public static void main(String[] args) {
