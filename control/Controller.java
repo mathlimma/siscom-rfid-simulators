@@ -36,7 +36,6 @@ public class Controller {
 		this.inicialFrameSize = iniFrameSize;
 		
 		this.metrics = new Metrics();
-		
 		this.est = new ArrayList<Estimator>();
 		if(choosenEstimators==1) {
 			this.est.add(new LowerBound(this.inicialNumberTags,this.inicialFrameSize));
@@ -48,11 +47,8 @@ public class Controller {
 			this.est.add(new ILCM(this.inicialNumberTags, this.inicialFrameSize));
 			this.est.add(new Vahedi2(this.inicialNumberTags, this.inicialFrameSize));
 		}
-			
 		this.graphic = new Graphic(choosenEstimators,this.incrementTagsBy,this.inicialNumberTags,this.maxNumberTags);
-		
 	}
-	
 	public Estimator resetEst(Estimator est, int iniNumTags,int iniFrameSize) {
 		
 		if(est instanceof LowerBound) {
@@ -68,9 +64,10 @@ public class Controller {
 	}
 	
 	private void runEstimator(Estimator est) {
-		est.getMetrics().setEstimatorTime(System.currentTimeMillis());
+		long time = System.currentTimeMillis();
 		
 		int numberTags = this.inicialNumberTags;
+		
 		
 		while(numberTags<=this.maxNumberTags) {
 			
@@ -85,7 +82,7 @@ public class Controller {
 			
 			numberTags+=this.incrementTagsBy;
 			this.metrics = this.metrics.divByNumberRepetitions(this.repetitionsEachNumberTags);
-			this.metrics.setEstimatorTime(System.currentTimeMillis()-this.metrics.getEstimatorTime());
+			this.metrics.setEstimatorTime(((System.currentTimeMillis()-time)));
 
 			if (est instanceof LowerBound) {
 				this.graphic.lbMetrics.add(this.metrics);
@@ -94,7 +91,6 @@ public class Controller {
 			}else if(est instanceof ILCM){
 				this.graphic.ilcmMetrics.add(this.metrics);
 			}else {
-				System.out.println("aaaa");	
 				this.graphic.vaMetrics.add(this.metrics);
 			}
 			
