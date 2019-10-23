@@ -57,9 +57,10 @@ public class Controller {
 			return new EomLee(iniNumTags,iniFrameSize);
 		}else if(est instanceof ILCM){
 			return new ILCM(iniNumTags, iniFrameSize);
-		}else {
-			return new Vahedi2(iniNumTags, iniFrameSize);
 		}
+    else {
+			return new Vahedi2(iniNumTags, iniFrameSize);
+    }
 		
 	}
 	
@@ -82,6 +83,7 @@ public class Controller {
 			
 			numberTags+=this.incrementTagsBy;
 			this.metrics = this.metrics.divByNumberRepetitions(this.repetitionsEachNumberTags);
+
 			this.metrics.setEstimatorTime(((System.currentTimeMillis()-time)));
 
 			if (est instanceof LowerBound) {
