@@ -8,6 +8,7 @@ import estimators.EomLee;
 import estimators.Estimator;
 import estimators.ILCM;
 import estimators.LowerBound;
+import estimators.Vahedi2;
 import general.Metrics;
 import graphic.Graphic;
 
@@ -35,7 +36,6 @@ public class Controller {
 		this.inicialFrameSize = iniFrameSize;
 		
 		this.metrics = new Metrics();
-		
 		this.est = new ArrayList<Estimator>();
 		if(choosenEstimators==1) {
 			this.est.add(new LowerBound(this.inicialNumberTags,this.inicialFrameSize));
@@ -45,28 +45,30 @@ public class Controller {
 			this.est.add(new LowerBound(this.inicialNumberTags,this.inicialFrameSize));
 			this.est.add(new EomLee(this.inicialNumberTags,this.inicialFrameSize));
 			this.est.add(new ILCM(this.inicialNumberTags, this.inicialFrameSize));
+			this.est.add(new Vahedi2(this.inicialNumberTags, this.inicialFrameSize));
 		}
-			
 		this.graphic = new Graphic(choosenEstimators,this.incrementTagsBy,this.inicialNumberTags,this.maxNumberTags);
-		
 	}
-	
 	public Estimator resetEst(Estimator est, int iniNumTags,int iniFrameSize) {
 		
 		if(est instanceof LowerBound) {
 			return new LowerBound(iniNumTags,iniFrameSize);
 		}else if(est instanceof EomLee) {
 			return new EomLee(iniNumTags,iniFrameSize);
-		}else {
+		}else if(est instanceof ILCM){
 			return new ILCM(iniNumTags, iniFrameSize);
 		}
+    else {
+			return new Vahedi2(iniNumTags, iniFrameSize);
+    }
 		
 	}
 	
 	private void runEstimator(Estimator est) {
-		est.getMetrics().setEstimatorTime(System.currentTimeMillis());
+		long time = System.currentTimeMillis();
 		
 		int numberTags = this.inicialNumberTags;
+		
 		
 		while(numberTags<=this.maxNumberTags) {
 			
@@ -81,16 +83,17 @@ public class Controller {
 			
 			numberTags+=this.incrementTagsBy;
 			this.metrics = this.metrics.divByNumberRepetitions(this.repetitionsEachNumberTags);
-			this.metrics.setEstimatorTime(System.currentTimeMillis()-this.metrics.getEstimatorTime());
+
+			this.metrics.setEstimatorTime(((System.currentTimeMillis()-time)));
 
 			if (est instanceof LowerBound) {
 				this.graphic.lbMetrics.add(this.metrics);
 			}else if (est instanceof EomLee) {
 				this.graphic.elMetrics.add(this.metrics);
-			}
-			else {
-				System.out.println("aaaa");
+			}else if(est instanceof ILCM){
 				this.graphic.ilcmMetrics.add(this.metrics);
+			}else {
+				this.graphic.vaMetrics.add(this.metrics);
 			}
 			
 		}
