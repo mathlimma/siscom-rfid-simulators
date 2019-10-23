@@ -3,6 +3,7 @@ package estimators;
 import java.lang.Math;
 import general.Tag;
 import java.math.BigInteger;
+import java.util.Arrays;
 
 public class Vahedi extends Estimator {
 	
@@ -17,7 +18,7 @@ public class Vahedi extends Estimator {
 	
 	
 	public void simulate () {
-		this.metrics.setEstimatorTime(System.currentTimeMillis());
+		long time = System.currentTimeMillis();
 		
 		int numCollisionSlots=0;
 		int numSucessSlots=0;
@@ -55,61 +56,71 @@ public class Vahedi extends Estimator {
 		}
 		
 		this.setEfficiecy(this.getNumberSucessSlots()/this.getNumberTotalSlots());
-		this.metrics.setEstimatorTime(System.currentTimeMillis()-this.metrics.getEstimatorTime());
+		time = System.currentTimeMillis()-time;
+		this.metrics.setSimulatorTime(time+this.metrics.getSimulatorTime());
 	}
 	
 	private int calculateNextFrameSize(int E, int C, int S){
+		long time = System.currentTimeMillis();
 		int L = E + S + C;
 		int n =  S + 2*C;
 		double next = 0;
 		double previous = -1;
 		
-
-		
 		while (previous < next) {
 			double p1 = Math.pow((1 - (E/L)), n);
-			
-			double x = this.fac[n]/facMult(new int[]{S,n-S});
+			double x = fac(n)/facMult(new int[]{S,n-S});
 			double y = Math.pow((L-E-S), (n-S)) / Math.pow((L-E), n);
-			double p2 = x*y*this.fac[S];
+			double p2 = x*y*fac(S);
 			double p3 = 0;
 
 			for(int k = 0; k < C; k++) {
 				for(int v = 0; v < C - k; v++) {
 					double a = Math.pow(-1, k+v);
-		
-					double b = this.fac[C]/facMult(new int[]{k,C-k});
-	
-					double c = this.fac[C-k]/facMult(new int[]{v,(C-k-v)});
-					double d = this.fac[n-S]/this.fac[n-S-k];
+					double b = fac(C)/facMult(new int[]{k,C-k});
+					double c = fac(C-k)/facMult(new int[]{v,(C-k-v)});
+					double d = fac(n-S)/fac(n-S-k);
 					double e = Math.pow((C-k-v), (n-S-k))/Math.pow(C, (n-S));
 					p3 = p3 + a * b * c * d * e;
 				}
 			}
-
 			previous = next;
-			next = (this.fac[L]/this.fac[E]*this.fac[S]*this.fac[C])*p1*p2*p3;
+			next = (fac(L)/fac(E)*fac(S)*fac(C))*p1*p2*p3;
 			n = n + 1;
 		}
 		
+		time = System.currentTimeMillis()-time;
+		this.metrics.setEstimatorTime(time+this.metrics.getEstimatorTime());
 		return n - 2;
 	}
 	
-	public void fac()  { 
-	     
-	    for (int i=0; i<this.facSize; i++) { 
-	       BigInteger factorial = new BigInteger("1");
-	       for(int j=1; j<=i+1; j++) { 
-	          factorial = factorial.multiply(BigInteger.valueOf(j)); 
-	       } 
-	      this.fac[i] = factorial; 
-	    };
+	private double fac(int num) {
+		double fac = 1;
+		for(int i = 1; i <= num; i++) {
+			fac *= i;
+		}
+		return fac;
 	}
 	
-
-	public static void main(String[] args) {
+	private double facMult(int[] ks){
+		double retorno = 1.0;
+		double fac = 0.0;
 		
+		Arrays.sort(ks);
 		
+		for (int i = 0; i < ks.length; i++) {
+			if(i == 0) 
+				fac = fac(ks[i]);
+			else{
+				int x = ks[i] - ks[i-1];
+				for (int j = 1; j <= x; j++) {
+					fac = fac * (ks[i-1] * j);
+				}
+			}
+			retorno *= fac;
+		}
+		
+		return retorno;
 	}
 
 }

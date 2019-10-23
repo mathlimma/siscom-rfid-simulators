@@ -10,7 +10,8 @@ public class LowerBound extends Estimator {
 	
 	
 	public void simulate () {
-		this.metrics.setEstimatorTime(System.currentTimeMillis());
+		long time = System.currentTimeMillis();
+		
 		while(!this.tags.isEmpty()){
 			this.setNumberTotalSlots(this.frameSize+this.getNumberTotalSlots());
 			
@@ -37,7 +38,8 @@ public class LowerBound extends Estimator {
 		}
 		
 		this.setEfficiecy(this.getNumberSucessSlots()/this.getNumberTotalSlots());
-		this.metrics.setEstimatorTime(System.currentTimeMillis()-this.metrics.getEstimatorTime());
+		time = System.currentTimeMillis()-time;
+		this.metrics.setSimulatorTime(time+this.metrics.getSimulatorTime());
 	}
 
 	public static void main(String[] args) {

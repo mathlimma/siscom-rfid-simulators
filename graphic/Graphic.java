@@ -35,7 +35,6 @@ public class Graphic extends JFrame {
 	public List<Metrics> lbMetrics;
 	public List<Metrics> elMetrics;
 	public List<Metrics> ilcmMetrics;
-
 	public List<Metrics> vaMetrics;
 
 
@@ -54,7 +53,6 @@ public class Graphic extends JFrame {
 			this.lbMetrics = new ArrayList<Metrics>();
 			this.elMetrics = new ArrayList<Metrics>();
 			this.ilcmMetrics = new ArrayList<Metrics>();
-
 			this.vaMetrics = new ArrayList<Metrics>();
 
 		}
@@ -65,9 +63,7 @@ public class Graphic extends JFrame {
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
     	XYSeries series3 = new XYSeries("ILCM");
-
     	XYSeries series4 = new XYSeries("Vahedi");
-r
     	
     	int numberTags = this.inicialNumberTags;
     	
@@ -81,7 +77,6 @@ r
     				series1.add(numberTags, this.lbMetrics.get(i).getNumberEmptySlots());
     	    		series2.add(numberTags, this.elMetrics.get(i).getNumberEmptySlots());
     	    		series3.add(numberTags, this.ilcmMetrics.get(i).getNumberEmptySlots());
-            
     	    		series4.add(numberTags, this.vaMetrics.get(i).getNumberEmptySlots());
 
     			}
@@ -102,12 +97,7 @@ r
         	dataset.addSeries(series3);
         	dataset.addSeries(series4);
         }
-        	
-
-        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
-        	dataset.addSeries(series3);
-
-        
+ 
         return dataset;
     }
     
@@ -115,7 +105,6 @@ r
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
     	XYSeries series3 = new XYSeries("ILCM");
-
     	XYSeries series4 = new XYSeries("Vahedi");
 
     	
@@ -131,7 +120,6 @@ r
 				series1.add(numberTags, this.lbMetrics.get(i).getNumberCollisionSlots());
 	    		series2.add(numberTags, this.elMetrics.get(i).getNumberCollisionSlots());
 	    		series3.add(numberTags, this.ilcmMetrics.get(i).getNumberCollisionSlots());
-
 	    		series4.add(numberTags, this.vaMetrics.get(i).getNumberCollisionSlots());
 
 			}
@@ -153,9 +141,6 @@ r
         	dataset.addSeries(series4);
         }
 
-        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
-        	dataset.addSeries(series3);
-
         return dataset;
     }
     
@@ -163,10 +148,8 @@ r
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
     	XYSeries series3 = new XYSeries("ILCM");
-
     	XYSeries series4 = new XYSeries("Vahedi");
 
-    	
     	int numberTags = this.inicialNumberTags;
     	
     	for(int i=0;numberTags<=this.maxNumberTags;i++) {
@@ -179,9 +162,7 @@ r
 				series1.add(numberTags, this.lbMetrics.get(i).getEfficiency());
 	    		series2.add(numberTags, this.elMetrics.get(i).getEfficiency());
 	    		series3.add(numberTags, this.ilcmMetrics.get(i).getEfficiency());
-
 	    		series4.add(numberTags, this.vaMetrics.get(i).getEfficiency());
-
 
 			}
 			
@@ -202,18 +183,14 @@ r
         	dataset.addSeries(series4);
         }
 
-        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
-        	dataset.addSeries(series3);
-
 
         return dataset;
     }
     
-    private XYDataset createDatasetEstimatorTime() {
+    private XYDataset createDatasetSimulatorTime() {
     	XYSeries series1 = new XYSeries("LowerBound");
     	XYSeries series2 = new XYSeries("Eomlee");
     	XYSeries series3 = new XYSeries("ILCM");
-
     	XYSeries series4 = new XYSeries("Vahedi");
     	
     	int numberTags = this.inicialNumberTags;
@@ -222,20 +199,60 @@ r
     		
     		if(this.choosenEstimators==1) {
     			
-    			//System.out.println(this.lbMetrics.get(i).getEstimatorTime());
+				series1.add(numberTags,this.lbMetrics.get(i).getSimulatorTime());
+			}else if(this.choosenEstimators==2) {
+				
+				series2.add(numberTags,this.elMetrics.get(i).getSimulatorTime());
+			}else {
+				
+				series1.add(numberTags, this.lbMetrics.get(i).getSimulatorTime());
+	    		series2.add(numberTags, this.elMetrics.get(i).getSimulatorTime());
+	    		series3.add(numberTags, this.ilcmMetrics.get(i).getSimulatorTime());
+	    		series4.add(numberTags, this.vaMetrics.get(i).getSimulatorTime());
+
+			}
+			
+			numberTags+=this.incrementTagsBy;
+		}        
+
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        
+        if(this.choosenEstimators!=2)
+        	dataset.addSeries(series1);
+        
+        if(this.choosenEstimators!=1)
+        	dataset.addSeries(series2);
+        
+
+        if(this.choosenEstimators!=1 && this.choosenEstimators!=2) {
+        	dataset.addSeries(series3);
+        	dataset.addSeries(series4);
+        }
+
+        return dataset;
+    }
+    
+    private XYDataset createDatasetEstimatorTime() {
+    	XYSeries series1 = new XYSeries("LowerBound");
+    	XYSeries series2 = new XYSeries("Eomlee");
+    	XYSeries series3 = new XYSeries("ILCM");
+    	XYSeries series4 = new XYSeries("Vahedi");
+    	
+    	int numberTags = this.inicialNumberTags;
+    	
+    	for(int i=0;numberTags<=this.maxNumberTags;i++) {
+    		
+    		if(this.choosenEstimators==1) {
+    			
 				series1.add(numberTags,this.lbMetrics.get(i).getEstimatorTime());
 			}else if(this.choosenEstimators==2) {
 				
-				//System.out.println(this.elMetrics.get(i).getEstimatorTime());
 				series2.add(numberTags,this.elMetrics.get(i).getEstimatorTime());
 			}else {
 				
-				//System.out.println(this.lbMetrics.get(i).getEstimatorTime());
-				//System.out.println(this.elMetrics.get(i).getEstimatorTime());
 				series1.add(numberTags, this.lbMetrics.get(i).getEstimatorTime());
 	    		series2.add(numberTags, this.elMetrics.get(i).getEstimatorTime());
 	    		series3.add(numberTags, this.ilcmMetrics.get(i).getEstimatorTime());
-
 	    		series4.add(numberTags, this.vaMetrics.get(i).getEstimatorTime());
 
 			}
@@ -256,9 +273,6 @@ r
         	dataset.addSeries(series3);
         	dataset.addSeries(series4);
         }
-
-        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
-        	dataset.addSeries(series3);
 
         return dataset;
     }
@@ -282,7 +296,6 @@ r
 				series1.add(numberTags, this.lbMetrics.get(i).getNumberTotalSlots());
 	    		series2.add(numberTags, this.elMetrics.get(i).getNumberTotalSlots());
 	    		series3.add(numberTags, this.ilcmMetrics.get(i).getNumberTotalSlots());
-
 	    		series4.add(numberTags, this.vaMetrics.get(i).getNumberTotalSlots());
 
 			}
@@ -304,9 +317,6 @@ r
         	dataset.addSeries(series4);
         }
 
-        if(this.choosenEstimators!=1 && this.choosenEstimators!=2)
-        	dataset.addSeries(series3);
-
         return dataset;
     }
     
@@ -324,8 +334,11 @@ r
     	DrawGraph plotColisao=new DrawGraph(createDatasetCollision(),"Numero de Slots em Colisoees");
     	plotColisao.setVisible(true);
     	
-    	DrawGraph plotTime=new DrawGraph(createDatasetEstimatorTime(),"Tempo do simulador");
-    	plotTime.setVisible(true);
+    	DrawGraph plotTimeSimu=new DrawGraph(createDatasetSimulatorTime(),"Tempo do Estimador (miliseg)");
+    	plotTimeSimu.setVisible(true);
+    	
+    	DrawGraph plotTimeEsti=new DrawGraph(createDatasetEstimatorTime(),"Tempo do simulador (miliseg)");
+    	plotTimeEsti.setVisible(true);
        }
     
 }

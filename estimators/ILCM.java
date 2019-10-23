@@ -11,7 +11,7 @@ public class ILCM extends Estimator {
 	
 	
 	public void simulate () {
-		this.metrics.setEstimatorTime(System.currentTimeMillis());
+		long time = System.currentTimeMillis();
 		
 		int numCollisionSlots=0;
 		int numSucessSlots=0;
@@ -49,10 +49,12 @@ public class ILCM extends Estimator {
 		}
 		
 		this.setEfficiecy(this.getNumberSucessSlots()/this.getNumberTotalSlots());
-		this.metrics.setEstimatorTime(System.currentTimeMillis()-this.metrics.getEstimatorTime());
+		time = System.currentTimeMillis()-time;
+		this.metrics.setSimulatorTime(time+this.metrics.getSimulatorTime());
 	}
 	
 	public int calculateNextFrameSize (double E, double C, double S) {
+		long time = System.currentTimeMillis();
 		
 		double L = E+S+C;
 		double l = (1.2592+(1.513*L))*Math.tan(1.234*(Math.pow(L, -0.9907))*C);
@@ -66,6 +68,8 @@ public class ILCM extends Estimator {
 			res=S;
 		}
 		
+		time = System.currentTimeMillis()-time;
+		this.metrics.setEstimatorTime(time+this.metrics.getEstimatorTime());
 		return (int)Math.ceil(res);
 		
 	}

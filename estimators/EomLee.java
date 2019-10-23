@@ -11,7 +11,7 @@ public class EomLee extends Estimator {
 	
 	
 	public void simulate () {
-		this.metrics.setEstimatorTime(System.currentTimeMillis());
+		long time = System.currentTimeMillis();
 		
 		int numCollisionSlots=0;
 		int numSucessSlots=0;
@@ -51,10 +51,12 @@ public class EomLee extends Estimator {
 		}
 		
 		this.setEfficiecy(this.getNumberSucessSlots()/this.getNumberTotalSlots());
-		this.metrics.setEstimatorTime(System.currentTimeMillis()-this.metrics.getEstimatorTime());
+		time = System.currentTimeMillis()-time;
+		this.metrics.setSimulatorTime(time+this.metrics.getSimulatorTime());
 	}
 	
 	public int calculateNextFrameSize (int f, int c, int s) {
+		long time = System.currentTimeMillis();
 		
 		double B, k1, num, den, frac;
 		double k = 2.0;
@@ -67,7 +69,8 @@ public class EomLee extends Estimator {
 			k = num/den;
 			
 		} while(Math.abs(k1-k)>=0.001);
-		
+		time = System.currentTimeMillis()-time;
+		this.metrics.setEstimatorTime(time+this.metrics.getEstimatorTime());
 		return (int)Math.ceil(k*c);
 	}
 	
