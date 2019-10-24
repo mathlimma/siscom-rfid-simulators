@@ -13,7 +13,7 @@ public class main {
 		System.out.println("Especifique quais simuladores voce deseja utilizar: \n"
 				+ "1 - Lower Bound \n"
 				+ "2 -  Eom-Lee \n"
-				+ "3 - Ambos");
+				+ "3 - Todos (LowerBound, EomLee, ILCM e Vahedi)");
 		int protocolsChoosen = in.nextInt();
 		System.out.println("Especifique o numero de inicial de etiquetas: ");
 		int inicialNumberTags = in.nextInt();

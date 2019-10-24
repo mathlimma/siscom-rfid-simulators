@@ -8,9 +8,10 @@ public class Metrics {
 	private int numberTotalSlots;
 	private double efficiency;
 	private long estimatorTime;
+	private long simulatorTime;
 	
 	public Metrics (double numberEmptySlots, double numberCollisionSlots, double numberSucessSlots,
-			int numberTotalSlots, double efficiency, long estimatorTime) {
+			int numberTotalSlots, double efficiency, long estimatorTime, long simulatorTime) {
 		
 		this.numberEmptySlots = numberEmptySlots;
 		this.numberCollisionSlots = numberCollisionSlots;
@@ -18,6 +19,7 @@ public class Metrics {
 		this.numberTotalSlots = numberTotalSlots;
 		this.efficiency = efficiency;
 		this.estimatorTime = estimatorTime;
+		this.simulatorTime = simulatorTime;
 	}
 	
 	public Metrics () {
@@ -28,17 +30,18 @@ public class Metrics {
 		this.numberTotalSlots = 0;
 		this.efficiency = 0.0;
 		this.estimatorTime = 0;
+		this.simulatorTime = 0;
 	}
 	
 	public Metrics sumMetrics(Metrics m2) {
 		
 		return new Metrics(this.numberEmptySlots+m2.numberEmptySlots,this.numberCollisionSlots+m2.numberCollisionSlots,
-				this.numberSucessSlots+m2.numberSucessSlots, this.numberTotalSlots+m2.numberTotalSlots,this.efficiency+m2.efficiency, this.estimatorTime+m2.estimatorTime);
+				this.numberSucessSlots+m2.numberSucessSlots, this.numberTotalSlots+m2.numberTotalSlots,this.efficiency+m2.efficiency,this.simulatorTime+m2.simulatorTime ,this.estimatorTime+m2.estimatorTime);
 	}
 	
 	public Metrics divByNumberRepetitions(int numRepet) {
 		return new Metrics(this.numberEmptySlots/numRepet,this.numberCollisionSlots/numRepet,
-				this.numberSucessSlots/numRepet, this.numberTotalSlots/numRepet,this.efficiency/numRepet,this.estimatorTime/numRepet);
+				this.numberSucessSlots/numRepet, this.numberTotalSlots/numRepet,this.efficiency/numRepet,this.estimatorTime/numRepet,this.simulatorTime/numRepet);
 	}
 	
 	public double getNumberEmptySlots() {
@@ -92,6 +95,14 @@ public class Metrics {
 
 	public void setEstimatorTime(long estimatorTime) {
 		this.estimatorTime = estimatorTime;
+	}
+
+	public long getSimulatorTime() {
+		return simulatorTime;
+	}
+
+	public void setSimulatorTime(long simulatorTime) {
+		this.simulatorTime = simulatorTime;
 	}
 
 }

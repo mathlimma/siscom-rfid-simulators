@@ -8,7 +8,7 @@ import estimators.EomLee;
 import estimators.Estimator;
 import estimators.ILCM;
 import estimators.LowerBound;
-import estimators.Vahedi2;
+import estimators.Vahedi;
 import general.Metrics;
 import graphic.Graphic;
 
@@ -45,7 +45,7 @@ public class Controller {
 			this.est.add(new LowerBound(this.inicialNumberTags,this.inicialFrameSize));
 			this.est.add(new EomLee(this.inicialNumberTags,this.inicialFrameSize));
 			this.est.add(new ILCM(this.inicialNumberTags, this.inicialFrameSize));
-			this.est.add(new Vahedi2(this.inicialNumberTags, this.inicialFrameSize));
+			this.est.add(new Vahedi(this.inicialNumberTags, this.inicialFrameSize));
 		}
 		this.graphic = new Graphic(choosenEstimators,this.incrementTagsBy,this.inicialNumberTags,this.maxNumberTags);
 	}
@@ -59,13 +59,12 @@ public class Controller {
 			return new ILCM(iniNumTags, iniFrameSize);
 		}
     else {
-			return new Vahedi2(iniNumTags, iniFrameSize);
+			return new Vahedi(iniNumTags, iniFrameSize);
     }
 		
 	}
 	
 	private void runEstimator(Estimator est) {
-		long time = System.currentTimeMillis();
 		
 		int numberTags = this.inicialNumberTags;
 		
@@ -83,8 +82,6 @@ public class Controller {
 			
 			numberTags+=this.incrementTagsBy;
 			this.metrics = this.metrics.divByNumberRepetitions(this.repetitionsEachNumberTags);
-
-			this.metrics.setEstimatorTime(((System.currentTimeMillis()-time)));
 
 			if (est instanceof LowerBound) {
 				this.graphic.lbMetrics.add(this.metrics);
