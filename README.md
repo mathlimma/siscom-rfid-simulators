@@ -5,4 +5,4 @@ O usuário define o número inicial de etiquetas, incremento de etiquetas, maxim
 
 Será gerado os 4 gráficos ao mesmo tempo.
 
-![]ImagemExemplo.png
+![](ImagemExemplo.png)
